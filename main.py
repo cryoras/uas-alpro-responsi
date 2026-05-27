@@ -56,7 +56,6 @@ def bersihkan_layar():
     os.system("cls" if os.name == "nt" else "clear")
 
 
-# zahlian
 def preprocessing(teks: str) -> str:
     """Ubah teks ke bentuk siap cek palindrom.
 
@@ -76,7 +75,7 @@ def preprocessing(teks: str) -> str:
     """
     pass
 
-# rima
+
 def is_palindrom(teks: str) -> bool:
     """Tentukan apakah teks adalah palindrom.
 
@@ -100,7 +99,7 @@ def is_palindrom(teks: str) -> bool:
     """
     pass
 
-# rima
+
 def hitung_karakter(teks: str) -> int:
     """Hitung jumlah karakter pada teks asli.
 
@@ -119,7 +118,7 @@ def hitung_karakter(teks: str) -> int:
     """
     pass
 
-# rima
+
 def hitung_kata(teks: str) -> int:
     """Hitung jumlah kata berdasarkan pemisah spasi.
 
@@ -139,7 +138,8 @@ def hitung_kata(teks: str) -> int:
         4
     """
 
-# rima
+
+
 def hitung_vokal(teks: str) -> int:
     """Hitung jumlah huruf vokal pada teks.
 
@@ -160,7 +160,8 @@ def hitung_vokal(teks: str) -> int:
     """
     pass
 
-# zahlian
+
+
 def tampilkan_analisis(teks: str, status: bool) -> None:
     """Tampilkan analisis lengkap untuk satu soal.
 
@@ -171,7 +172,9 @@ def tampilkan_analisis(teks: str, status: bool) -> None:
     Returns:
         None. Fungsi ini menghasilkan output ke layar.
     """
-# billy
+
+
+
 def mulai_kuis() -> None:
     """Jalankan kuis interaktif.
 
@@ -190,7 +193,8 @@ def mulai_kuis() -> None:
         None. Fungsi ini mengelola input/output kuis dan pembaruan data sesi.
     """
 
-#nody
+
+
 def tampilkan_riwayat(riwayat: list) -> None:
     """Tampilkan daftar riwayat jawaban selama sesi berjalan.
 
@@ -204,7 +208,8 @@ def tampilkan_riwayat(riwayat: list) -> None:
         None. Fungsi ini menghasilkan output ke layar.
     """
 
-# nody
+
+
 def cek_manual() -> None:
     """Mode cek palindrom dari input manual pengguna.
 
@@ -217,7 +222,8 @@ def cek_manual() -> None:
         None. Fungsi ini meminta input dan menampilkan hasil analisis.
     """
 
-# billy
+
+
 def tampilkan_statistik(statistik: dict) -> None:
     """Tampilkan statistik akhir permainan satu ronde.
 
@@ -232,7 +238,8 @@ def tampilkan_statistik(statistik: dict) -> None:
         None. Fungsi ini menghasilkan output ke layar.
     """
 
-# nody
+
+
 def export_hasil(
     riwayat: list, statistik: dict, nama_file: str = "hasil_quiz.txt") -> None
     """Simpan riwayat dan statistik ke file teks.
@@ -249,7 +256,9 @@ def export_hasil(
         None. Fungsi ini menulis output ke file.
     """
 
-# billy
+
+
+
 def main() -> None:
     """Tampilkan menu utama dan routing ke semua fitur.
 
