@@ -158,7 +158,25 @@ def hitung_vokal(teks: str) -> int:
         >>> hitung_vokal("kasur rusak")
         4
     """
-    pass
+    jumlah_vokal = 0
+
+    for huruf in hasil:
+
+        if huruf in "aiueo":
+            jumlah_vokal += 1
+
+    print("Jumlah vokal :", jumlah_vokal)
+
+    
+    data = {
+        "teks": teks,
+        "status": status,
+        "mode": "manual"
+    }
+
+    riwayat.append(data)
+
+    print("\nData masuk ke riwayat\n")
 
 
 
@@ -290,26 +308,7 @@ def cek_manual() -> None:
     print("Jumlah karakter :", len(teks))
     print("Jumlah kata :", len(teks.split()))
 
-    # hitung vokal
-    jumlah_vokal = 0
 
-    for huruf in hasil:
-
-        if huruf in "aiueo":
-            jumlah_vokal += 1
-
-    print("Jumlah vokal :", jumlah_vokal)
-
-    
-    data = {
-        "teks": teks,
-        "status": status,
-        "mode": "manual"
-    }
-
-    riwayat.append(data)
-
-    print("\nData masuk ke riwayat\n")
 
 
 
@@ -345,6 +344,46 @@ def export_hasil(
     Returns:
         None. Fungsi ini menulis output ke file.
     """
+        
+    if len(riwayat) == 0:
+        print("\nBelum ada data\n")
+        return
+
+    file = open("hasil_quiz.txt", "w")
+
+    file.write("===== HASIL PALINQUIZ =====\n\n")
+
+    file.write("STATISTIK\n")
+    file.write("Total : " + str(statistik_sesi["total"]) + "\n")
+    file.write("Benar : " + str(statistik_sesi["benar"]) + "\n")
+    file.write("Salah : " + str(statistik_sesi["salah"]) + "\n")
+    file.write("Skor  : " + str(statistik_sesi["skor"]) + "\n")
+
+    if statistik_sesi["total"] > 0:
+        akurasi = (
+            statistik_sesi["benar"] /
+            statistik_sesi["total"]
+        ) * 100
+    else:
+        akurasi = 0
+
+    file.write("Akurasi : " + str(round(akurasi, 2)) + "%\n")
+
+    file.write("\n===== RIWAYAT =====\n\n")
+
+    no = 1
+
+    for item in riwayat:
+
+        file.write(str(no) + ". " + item["teks"] + "\n")
+        file.write("Status : " + item["status"] + "\n")
+        file.write("Mode   : " + item["mode"] + "\n\n")
+
+        no += 1
+
+    file.close()
+
+    print("\nBerhasil export ke hasil_quiz.txt\n")
 
 
 
