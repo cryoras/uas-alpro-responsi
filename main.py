@@ -97,7 +97,12 @@ def is_palindrom(teks: str) -> bool:
         >>> is_palindrom("python")
         False
     """
-    pass
+    bersih = preprocessing(teks)
+    n = len(bersih)
+    for i in range(n // 2):  # hanya perlu cek setengah panjang
+        if bersih[i] != bersih[n - 1 - i]:  # bandingkan depan vs belakang
+            return False
+    return True
 
 
 def hitung_karakter(teks: str) -> int:
@@ -116,7 +121,10 @@ def hitung_karakter(teks: str) -> int:
         >>> hitung_karakter("kasur rusak")
         11
     """
-    pass
+    jumlah = 0
+    for _ in teks:  
+        jumlah += 1
+    return jumlah
 
 
 def hitung_kata(teks: str) -> int:
@@ -137,6 +145,10 @@ def hitung_kata(teks: str) -> int:
         >>> hitung_kata("step on no pets")
         4
     """
+    kata = teks.strip().split()  # split() tanpa argumen: pisah di semua whitespace
+    return len(kata)
+
+
 def mulai_kuis(level, soal_list):
     skor = 0
     benar = 0
