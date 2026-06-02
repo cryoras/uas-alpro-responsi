@@ -1,43 +1,45 @@
-import random
 import os
+import random
 from datetime import datetime
+
 
 bank_soal = {
     "mudah": [
-        {"teks": "katak",   "palindrom": True},
-        {"teks": "malam",   "palindrom": True},
-        {"teks": "level",   "palindrom": True},
-        {"teks": "kodok",   "palindrom": True},
-        {"teks": "radar",   "palindrom": True},
-        {"teks": "kamu",    "palindrom": False},
-        {"teks": "python",  "palindrom": False},
-        {"teks": "ibu",     "palindrom": False},
-        {"teks": "ini",     "palindrom": True},
-        {"teks": "buku",    "palindrom": False},
+        {"teks": "katak", "palindrom": True},
+        {"teks": "malam", "palindrom": True},
+        {"teks": "level", "palindrom": True},
+        {"teks": "kodok", "palindrom": True},
+        {"teks": "radar", "palindrom": True},
+        {"teks": "kamu", "palindrom": False},
+        {"teks": "python", "palindrom": False},
+        {"teks": "ibu", "palindrom": False},
+        {"teks": "ini", "palindrom": True},
+        {"teks": "buku", "palindrom": False},
     ],
     "sedang": [
-        {"teks": "kasur rusak",  "palindrom": True},
-        {"teks": "civic",        "palindrom": True},
-        {"teks": "komputer",     "palindrom": False},
-        {"teks": "aba",          "palindrom": True},
-        {"teks": "palindrom",    "palindrom": False},
-        {"teks": "rotator",      "palindrom": True},
-        {"teks": "kertas",       "palindrom": False},
+        {"teks": "kasur rusak", "palindrom": True},
+        {"teks": "civic", "palindrom": True},
+        {"teks": "komputer", "palindrom": False},
+        {"teks": "aba", "palindrom": True},
+        {"teks": "palindrom", "palindrom": False},
+        {"teks": "rotator", "palindrom": True},
+        {"teks": "kertas", "palindrom": False},
     ],
     "sulit": [
-        {"teks": "step on no pets",  "palindrom": True},
-        {"teks": "ibu pergi pasar",  "palindrom": False},
-        {"teks": "kasur ini rusak",  "palindrom": True},
-        {"teks": "aku suka baca",    "palindrom": False},
+        {"teks": "step on no pets", "palindrom": True},
+        {"teks": "ibu pergi pasar", "palindrom": False},
+        {"teks": "kasur ini rusak", "palindrom": True},
+        {"teks": "aku suka baca", "palindrom": False},
     ],
 }
 
+
 sesi = {
-    "riwayat": [],          # list semua jawaban (kuis + manual)
-    "skor_total": 0,        # akumulasi skor semua ronde
-    "streak_terbaik": 0,    # streak terpanjang sepanjang sesi
-    "last_statistik": None, # statistik ronde terakhir (untuk export)
+    "riwayat": [],  # list semua jawaban (kuis + manual)
+    "skor_total": 0,  # akumulasi skor semua ronde
+    "last_statistik": None,  # statistik ronde terakhir (untuk export)
 }
+
 
 def garis(char="─", panjang=52):
     """Cetak garis pemisah horizontal."""
@@ -56,6 +58,8 @@ def bersihkan_layar():
     os.system("cls" if os.name == "nt" else "clear")
 
 
+
+# zahlian
 def preprocessing(teks: str) -> str:
     """Ubah teks ke bentuk siap cek palindrom.
 
@@ -73,9 +77,14 @@ def preprocessing(teks: str) -> str:
         >>> preprocessing("Kasur Rusak")
         'kasurrusak'
     """
-    pass
+    hasil = ""
+    for huruf in teks.lower():  # iterasi tiap huruf setelah lowercase
+        if huruf != " ":  # abaikan spasi
+            hasil += huruf
+    return hasil
 
 
+# rima
 def is_palindrom(teks: str) -> bool:
     """Tentukan apakah teks adalah palindrom.
 
@@ -105,6 +114,7 @@ def is_palindrom(teks: str) -> bool:
     return True
 
 
+# rima
 def hitung_karakter(teks: str) -> int:
     """Hitung jumlah karakter pada teks asli.
 
@@ -122,11 +132,12 @@ def hitung_karakter(teks: str) -> int:
         11
     """
     jumlah = 0
-    for _ in teks:  
+    for _ in teks:  # iterasi tiap karakter, tambah counter
         jumlah += 1
     return jumlah
 
 
+# rima
 def hitung_kata(teks: str) -> int:
     """Hitung jumlah kata berdasarkan pemisah spasi.
 
@@ -149,77 +160,8 @@ def hitung_kata(teks: str) -> int:
     return len(kata)
 
 
-def mulai_kuis(level, soal_list):
-    skor = 0
-    benar = 0
-    salah = 0
 
-    print(f"\n=== Level {level} Dimulai! ===")
-
-    for i, soal in enumerate(soal_list, 1):
-        print(f"\nSoal {i}: Apakah '{soal}' adalah palindrom? (y/n)")
-        jawaban = input("Jawaban: ").lower()
-
-        # cek palindrom
-        if soal == soal[::-1]:
-            kunci = 'y'
-        else:
-            kunci = 'n'
-
-        if jawaban == kunci:
-            print(" Benar!")
-            skor += 10
-            benar += 1
-        else:
-            print(f"Salah! Jawaban yang benar: {kunci}")
-            salah += 1
-
-    statistik = {
-        "total": len(soal_list),
-        "benar": benar,
-        "salah": salah,
-        "skor": skor
-    }
-
-    return statistik
-
-def tampilkan_statistik(statistik):
-    total = statistik["total"]
-    benar = statistik["benar"]
-    salah = statistik["salah"]
-    skor = statistik["skor"]
-
-    akurasi = (benar / total) * 100 if total > 0 else 0
-
-    print("\n=== HASIL KUIS ===")
-    print(f"Total Soal   : {total}")
-    print(f"Benar        : {benar}")
-    print(f"Salah        : {salah}")
-    print(f"Akurasi      : {akurasi:.2f}%")
-    print(f"Skor Akhir   : {skor}")
-
-def main():
-    while True:
-        print("\n=== PALINQUIZ CLI ===")
-        print("1. Mulai Kuis")
-        print("2. Keluar")
-
-        pilihan = input("Pilih menu: ")
-
-        if pilihan == "1":
-            soal_level1 = ["katak", "apel", "radar", "pisang"]
-
-            statistik = mulai_kuis("1", soal_level1)
-            tampilkan_statistik(statistik)
-
-        elif pilihan == "2":
-            print("Terima kasih sudah bermain!")
-            break
-
-        else:
-            print("Pilihan tidak valid!")
-
-
+ # zahlian
 def hitung_vokal(teks: str) -> int:
     """Hitung jumlah huruf vokal pada teks.
 
@@ -238,28 +180,15 @@ def hitung_vokal(teks: str) -> int:
         >>> hitung_vokal("kasur rusak")
         4
     """
-    jumlah_vokal = 0
-
-    for huruf in hasil:
-
-        if huruf in "aiueo":
-            jumlah_vokal += 1
-
-    print("Jumlah vokal :", jumlah_vokal)
-
-    
-    data = {
-        "teks": teks,
-        "status": status,
-        "mode": "manual"
-    }
-
-    riwayat.append(data)
-
-    print("\nData masuk ke riwayat\n")
+    vokal = "aiueo"
+    jumlah = 0
+    for huruf in teks.lower():  # lowercase dulu agar A == a
+        if huruf in vokal:
+            jumlah += 1
+    return jumlah
 
 
-
+# zahlian
 def tampilkan_analisis(teks: str, status: bool) -> None:
     """Tampilkan analisis lengkap untuk satu soal.
 
@@ -270,9 +199,20 @@ def tampilkan_analisis(teks: str, status: bool) -> None:
     Returns:
         None. Fungsi ini menghasilkan output ke layar.
     """
+    bersih = preprocessing(teks)
+    garis()
+    print("   ANALISIS TEKS")
+    garis()
+    print(f"   Teks asli          : {teks}")
+    print(f"   Setelah preprocess : {bersih}")
+    print(f"   Status palindrom   : {'✓ Palindrom' if status else '✗ Bukan Palindrom'}")
+    print(f"   Jumlah karakter    : {hitung_karakter(teks)}")
+    print(f"   Jumlah kata        : {hitung_kata(teks)}")
+    print(f"   Jumlah huruf vokal : {hitung_vokal(teks)}")
+    garis()
 
 
-
+# billy
 def mulai_kuis() -> None:
     """Jalankan kuis interaktif.
 
@@ -290,9 +230,109 @@ def mulai_kuis() -> None:
     Returns:
         None. Fungsi ini mengelola input/output kuis dan pembaruan data sesi.
     """
+    judul("MULAI KUIS")
+    print("  Pilih level kesulitan:\n")
+    print("   [1] Mudah  — kata pendek (10 soal)")
+    print("   [2] Sedang — kata panjang & frasa (7 soal)")
+    print("   [3] Sulit  — kalimat (4 soal)")
+    print("   [0] Kembali ke menu")
+    garis()
+
+    pilihan = input("  Pilihan: ").strip()
+    level_map = {"1": "mudah", "2": "sedang", "3": "sulit"}
+
+    if pilihan == "0":
+        return
+    if pilihan not in level_map:
+        print("\n  ⚠  Pilihan tidak valid.")
+        input("  Tekan Enter untuk kembali...")
+        return
+
+    level = level_map[pilihan]
+    soal_list = bank_soal[level].copy()
+    random.shuffle(soal_list)  # acak urutan soal tiap ronde
+
+    # variabel ronde
+    skor = 0
+    streak = 0
+    total_benar = 0
+    total_salah = 0
+
+    bersihkan_layar()
+    judul(f"LEVEL: {level.upper()} | {len(soal_list)} SOAL")
+
+    for nomor, soal in enumerate(soal_list, 1):
+        teks = soal["teks"]
+        jawaban_benar = soal["palindrom"]
+
+        # header soal
+        print(
+            f"\n  Soal {nomor}/{len(soal_list)}  |  Skor: {skor}  |  Streak: {streak} {'🔥' if streak >= 3 else ''}"
+        )
+        garis()
+        print(f'   Teks: "{teks}"')
+        print(f"\n   Apakah teks ini PALINDROM?")
+        print("   [1] Ya     [2] Tidak")
+        garis()
+
+        # validasi input user
+        while True:
+            jawaban_input = input("  Jawaban: ").strip()
+            if jawaban_input in ["1", "2"]:
+                break
+            print("  ⚠  Masukkan 1 atau 2.")
+
+        jawaban_user = jawaban_input == "1"
+        benar = jawaban_user == jawaban_benar
+
+        # update skor & streak
+        if benar:
+            skor += 10
+            streak += 1
+            total_benar += 1
+            print("\n  ✓  BENAR! +10 poin")
+            if streak >= 3:
+                print(f"  🔥  Streak {streak}! Luar biasa!")
+        else:
+            streak = 0
+            total_salah += 1
+            print("\n  ✗  SALAH!")
+
+        # analisis teks
+        tampilkan_analisis(teks, jawaban_benar)
+
+        # simpan riwayat
+        sesi["riwayat"].append(
+            {
+                "teks": teks,
+                "jawaban_user": "Ya" if jawaban_user else "Tidak",
+                "jawaban_benar": "Ya" if jawaban_benar else "Tidak",
+                "hasil": "Benar" if benar else "Salah",
+                "level": level,
+            }
+        )
+
+        input("  Tekan Enter untuk lanjut...")
+        bersihkan_layar()
+
+    # update sesi global
+    sesi["skor_total"] += skor
+
+    # buat dict statistik ronde ini
+    statistik = {
+        "level": level,
+        "total": len(soal_list),
+        "benar": total_benar,
+        "salah": total_salah,
+        "akurasi": round((total_benar / len(soal_list)) * 100, 1),
+        "skor": skor,
+    }
+    sesi["last_statistik"] = statistik  # simpan untuk export
+
+    tampilkan_statistik(statistik)
 
 
-
+# nody
 def tampilkan_riwayat(riwayat: list) -> None:
     """Tampilkan daftar riwayat jawaban selama sesi berjalan.
 
@@ -305,46 +345,47 @@ def tampilkan_riwayat(riwayat: list) -> None:
     Returns:
         None. Fungsi ini menghasilkan output ke layar.
     """
-    if len(riwayat) == 0:
-        print("\nBelum ada riwayat\n")
+    judul("RIWAYAT PENGECEKAN")
+
+    if not riwayat:
+        print("  Belum ada riwayat dalam sesi ini.")
+        input("\n  Tekan Enter untuk kembali...")
         return
 
-    print("\n=== RIWAYAT ===")
-    print("1. Sort panjang teks")
-    print("2. Sort benar dulu")
-    print("3. Tanpa sort")
-
-    pilih = input("Pilih: ")
-
-    data = riwayat.copy()
-
-    if pilih == "1":
-        data.sort(key=lambda x: len(x["teks"]))
-
-    elif pilih == "2":
-        data.sort(key=lambda x: x["status"] != "Benar")
-
-    print("\n--------------------------------------------------")
-    print("No\tStatus\t\tMode\t\tTeks")
-    print("--------------------------------------------------")
-
-    no = 1
-
-    for item in data:
+    # header tabel
+    print(f"   {'No':<4} {'Teks':<22} {'Jawaban':<9} {'Benar':<9} {'Hasil':<8} Level")
+    garis()
+    for i, e in enumerate(riwayat, 1):
         print(
-            str(no) + "\t" +
-            item["status"] + "\t\t" +
-            item["mode"] + "\t\t" +
-            item["teks"]
+            f"   {i:<4} {e['teks']:<22} {e['jawaban_user']:<9} {e['jawaban_benar']:<9} {e['hasil']:<8} {e['level']}"
         )
+    garis()
+    print(f"   Total data: {len(riwayat)} entri")
 
-        no += 1
+    # opsi sorting
+    print("\n  Urutkan riwayat berdasarkan:")
+    print("   [1] Panjang teks (pendek → panjang)")
+    print("   [2] Hasil (Benar dulu)")
+    print("   [0] Kembali")
+    pilihan = input("  Pilihan: ").strip()
 
-    print("--------------------------------------------------")
+    if pilihan == "1":
+        terurut = sorted(riwayat, key=lambda x: len(x["teks"]))
+        print("\n  Riwayat diurutkan (pendek → panjang):\n")
+        for i, e in enumerate(terurut, 1):
+            print(f'   {i}. [{e["hasil"]}] "{e["teks"]}"  ({len(e["teks"])} karakter)')
+
+    elif pilihan == "2":
+        # "Benar" < "Salah" secara alfabet, jadi Benar muncul duluan
+        terurut = sorted(riwayat, key=lambda x: x["hasil"])
+        print("\n  Riwayat diurutkan (Benar dulu):\n")
+        for i, e in enumerate(terurut, 1):
+            print(f'   {i}. [{e["hasil"]}] "{e["teks"]}"')
+
+    input("\n  Tekan Enter untuk kembali...")
 
 
-
-
+# nody
 def cek_manual() -> None:
     """Mode cek palindrom dari input manual pengguna.
 
@@ -356,43 +397,38 @@ def cek_manual() -> None:
     Returns:
         None. Fungsi ini meminta input dan menampilkan hasil analisis.
     """
-     print("\n=== MODE CEK MANUAL ===")
+    judul("MODE CEK MANUAL")
+    print("  Masukkan kata atau kalimat untuk dicek palindromnya.")
+    print("  Ketik 'selesai' untuk kembali ke menu.\n")
 
-    teks = input("Masukkan teks: ")
+    while True:
+        teks = input("  Teks: ").strip()
 
-    hasil = teks.lower().replace(" ", "")
-
-    kiri = 0
-    kanan = len(hasil) - 1
-
-    palindrom = True
-
-    while kiri < kanan:
-
-        if hasil[kiri] != hasil[kanan]:
-            palindrom = False
+        if teks.lower() == "selesai":
+            print("\n  Kembali ke menu utama...")
             break
 
-        kiri += 1
-        kanan -= 1
+        if not teks:
+            print("  ⚠  Teks tidak boleh kosong.\n")
+            continue
 
-    if palindrom:
-        status = "Palindrom"
-    else:
-        status = "Bukan"
+        status = is_palindrom(teks)
+        tampilkan_analisis(teks, status)
 
-    print("\nHasil:")
-    print("Teks asli :", teks)
-    print("Setelah preprocess :", hasil)
-    print("Status :", status)
-    print("Jumlah karakter :", len(teks))
-    print("Jumlah kata :", len(teks.split()))
+        # simpan ke riwayat sesi
+        sesi["riwayat"].append(
+            {
+                "teks": teks,
+                "jawaban_user": "-",
+                "jawaban_benar": "Ya" if status else "Tidak",
+                "hasil": "Manual",
+                "level": "manual",
+            }
+        )
+        print()  # jarak antar cek
 
 
-
-
-
-
+# billy
 def tampilkan_statistik(statistik: dict) -> None:
     """Tampilkan statistik akhir permainan satu ronde.
 
@@ -406,68 +442,80 @@ def tampilkan_statistik(statistik: dict) -> None:
     Returns:
         None. Fungsi ini menghasilkan output ke layar.
     """
+    judul("STATISTIK PERMAINAN")
+    print(f"   Level            : {statistik['level'].upper()}")
+    print(f"   Total soal       : {statistik['total']}")
+    print(f"   Jawaban benar    : {statistik['benar']}  ✓")
+    print(f"   Jawaban salah    : {statistik['salah']}  ✗")
+    print(f"   Akurasi          : {statistik['akurasi']}%")
+    print(f"   Skor ronde ini   : {statistik['skor']}")
+    print(f"   Skor total sesi  : {sesi['skor_total']}")
+    garis()
+
+    # komentar berdasarkan akurasi
+    akurasi = statistik["akurasi"]
+    if akurasi == 100:
+        print("   🏆  SEMPURNA! Kamu menguasai palindrom!")
+    elif akurasi >= 80:
+        print("   🎉  Hebat! Sedikit lagi sempurna!")
+    elif akurasi >= 60:
+        print("   👍  Lumayan! Terus berlatih ya!")
+    else:
+        print("   💪  Jangan menyerah, coba lagi!")
+    garis()
+
+    input("\n  Tekan Enter untuk kembali ke menu...")
 
 
-
+# nody
 def export_hasil(
-    riwayat: list, statistik: dict, nama_file: str = "hasil_quiz.txt") -> None
+    riwayat: list, statistik: dict, nama_file: str = "hasil_quiz.txt"
+) -> None:
     """Simpan riwayat dan statistik ke file teks.
-    
+
     Menulis header, statistik ronde terakhir, dan seluruh entri riwayat
     ke file .txt. File disimpan di direktori yang sama dengan script.
-    
+
     Args:
         riwayat   : List berisi entri riwayat sesi.
         statistik : Dict statistik akhir permainan.
         nama_file : Nama file tujuan (default: 'hasil_quiz.txt').
-    
+
     Returns:
         None. Fungsi ini menulis output ke file.
     """
-        
-    if len(riwayat) == 0:
-        print("\nBelum ada data\n")
-        return
+    waktu = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    file = open("hasil_quiz.txt", "w")
+    with open(nama_file, "w", encoding="utf-8") as f:
+        f.write("=" * 52 + "\n")
+        f.write("   HASIL PALINQUIZ\n")
+        f.write(f"   Waktu   : {waktu}\n")
+        f.write(f"   Level   : {statistik['level'].upper()}\n")
+        f.write("=" * 52 + "\n\n")
 
-    file.write("===== HASIL PALINQUIZ =====\n\n")
+        f.write("STATISTIK:\n")
+        f.write("-" * 30 + "\n")
+        f.write(f"Total soal       : {statistik['total']}\n")
+        f.write(f"Jawaban benar    : {statistik['benar']}\n")
+        f.write(f"Jawaban salah    : {statistik['salah']}\n")
+        f.write(f"Akurasi          : {statistik['akurasi']}%\n")
+        f.write(f"Skor             : {statistik['skor']}\n")
+        f.write("RIWAYAT JAWABAN:\n")
+        f.write("-" * 52 + "\n")
+        for i, e in enumerate(riwayat, 1):
+            status_ikon = "✓" if e["hasil"] in ("Benar", "Manual") else "✗"
+            f.write(f'{i:>3}. {status_ikon} [{e["hasil"]:<6}] "{e["teks"]}"\n')
+            if e["jawaban_user"] != "-":
+                f.write(
+                    f"       Jawaban: {e['jawaban_user']}  |  Kunci: {e['jawaban_benar']}\n"
+                )
+        f.write("\n" + "=" * 52 + "\n")
 
-    file.write("STATISTIK\n")
-    file.write("Total : " + str(statistik_sesi["total"]) + "\n")
-    file.write("Benar : " + str(statistik_sesi["benar"]) + "\n")
-    file.write("Salah : " + str(statistik_sesi["salah"]) + "\n")
-    file.write("Skor  : " + str(statistik_sesi["skor"]) + "\n")
-
-    if statistik_sesi["total"] > 0:
-        akurasi = (
-            statistik_sesi["benar"] /
-            statistik_sesi["total"]
-        ) * 100
-    else:
-        akurasi = 0
-
-    file.write("Akurasi : " + str(round(akurasi, 2)) + "%\n")
-
-    file.write("\n===== RIWAYAT =====\n\n")
-
-    no = 1
-
-    for item in riwayat:
-
-        file.write(str(no) + ". " + item["teks"] + "\n")
-        file.write("Status : " + item["status"] + "\n")
-        file.write("Mode   : " + item["mode"] + "\n\n")
-
-        no += 1
-
-    file.close()
-
-    print("\nBerhasil export ke hasil_quiz.txt\n")
+    print(f"\n  ✓  Hasil tersimpan di '{nama_file}'")
+    input("  Tekan Enter untuk kembali...")
 
 
-
-
+# billy
 def main() -> None:
     """Tampilkan menu utama dan routing ke semua fitur.
 
@@ -490,7 +538,57 @@ def main() -> None:
   ║    UAP Algoritma Pemrograman — Unila 2026      ║
   ╚════════════════════════════════════════════════╝
     """)
-    pass
+
+    while True:
+        print("  MENU UTAMA")
+        garis()
+        print("   [1]  Mulai Kuis")
+        print("   [2]  Lihat Riwayat")
+        print("   [3]  Mode Cek Manual")
+        # menu [4] hanya muncul kalau sudah ada statistik yang bisa di-export
+        if sesi["last_statistik"]:
+            print("   [4]  Export Hasil ke .txt")
+        print("   [0]  Keluar")
+        garis()
+
+        pilihan = input("  Pilihan: ").strip()
+
+        if pilihan == "1":
+            bersihkan_layar()
+            mulai_kuis()
+            bersihkan_layar()
+
+        elif pilihan == "2":
+            bersihkan_layar()
+            tampilkan_riwayat(sesi["riwayat"])
+            bersihkan_layar()
+
+        elif pilihan == "3":
+            bersihkan_layar()
+            cek_manual()
+            bersihkan_layar()
+
+        elif pilihan == "4" and sesi["last_statistik"]:
+            nama = input("\n  Nama file (Enter = 'hasil_quiz.txt'): ").strip()
+            if not nama:
+                nama = "hasil_quiz.txt"
+            export_hasil(sesi["riwayat"], sesi["last_statistik"], nama)
+            bersihkan_layar()
+
+        elif pilihan == "0":
+            bersihkan_layar()
+            print("\n  Terima kasih sudah bermain PalinQuiz!")
+            print(f"  Skor total sesi ini : {sesi['skor_total']}")
+            print("\n  Sampai jumpa! 👋\n")
+            break
+
+        else:
+            print("\n  ⚠  Pilihan tidak valid, coba lagi.\n")
+
+
+# ═══════════════════════════════════════════════════════════
+# ENTRY POINT
+# ═══════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
     main()
