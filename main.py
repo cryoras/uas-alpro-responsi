@@ -258,6 +258,59 @@ def cek_manual() -> None:
     Returns:
         None. Fungsi ini meminta input dan menampilkan hasil analisis.
     """
+     print("\n=== MODE CEK MANUAL ===")
+
+    teks = input("Masukkan teks: ")
+
+    hasil = teks.lower().replace(" ", "")
+
+    kiri = 0
+    kanan = len(hasil) - 1
+
+    palindrom = True
+
+    while kiri < kanan:
+
+        if hasil[kiri] != hasil[kanan]:
+            palindrom = False
+            break
+
+        kiri += 1
+        kanan -= 1
+
+    if palindrom:
+        status = "Palindrom"
+    else:
+        status = "Bukan"
+
+    print("\nHasil:")
+    print("Teks asli :", teks)
+    print("Setelah preprocess :", hasil)
+    print("Status :", status)
+    print("Jumlah karakter :", len(teks))
+    print("Jumlah kata :", len(teks.split()))
+
+    # hitung vokal
+    jumlah_vokal = 0
+
+    for huruf in hasil:
+
+        if huruf in "aiueo":
+            jumlah_vokal += 1
+
+    print("Jumlah vokal :", jumlah_vokal)
+
+    
+    data = {
+        "teks": teks,
+        "status": status,
+        "mode": "manual"
+    }
+
+    riwayat.append(data)
+
+    print("\nData masuk ke riwayat\n")
+
 
 
 
