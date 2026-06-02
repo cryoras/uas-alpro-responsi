@@ -207,6 +207,43 @@ def tampilkan_riwayat(riwayat: list) -> None:
     Returns:
         None. Fungsi ini menghasilkan output ke layar.
     """
+    if len(riwayat) == 0:
+        print("\nBelum ada riwayat\n")
+        return
+
+    print("\n=== RIWAYAT ===")
+    print("1. Sort panjang teks")
+    print("2. Sort benar dulu")
+    print("3. Tanpa sort")
+
+    pilih = input("Pilih: ")
+
+    data = riwayat.copy()
+
+    if pilih == "1":
+        data.sort(key=lambda x: len(x["teks"]))
+
+    elif pilih == "2":
+        data.sort(key=lambda x: x["status"] != "Benar")
+
+    print("\n--------------------------------------------------")
+    print("No\tStatus\t\tMode\t\tTeks")
+    print("--------------------------------------------------")
+
+    no = 1
+
+    for item in data:
+        print(
+            str(no) + "\t" +
+            item["status"] + "\t\t" +
+            item["mode"] + "\t\t" +
+            item["teks"]
+        )
+
+        no += 1
+
+    print("--------------------------------------------------")
+
 
 
 
