@@ -137,7 +137,75 @@ def hitung_kata(teks: str) -> int:
         >>> hitung_kata("step on no pets")
         4
     """
+def mulai_kuis(level, soal_list):
+    skor = 0
+    benar = 0
+    salah = 0
 
+    print(f"\n=== Level {level} Dimulai! ===")
+
+    for i, soal in enumerate(soal_list, 1):
+        print(f"\nSoal {i}: Apakah '{soal}' adalah palindrom? (y/n)")
+        jawaban = input("Jawaban: ").lower()
+
+        # cek palindrom
+        if soal == soal[::-1]:
+            kunci = 'y'
+        else:
+            kunci = 'n'
+
+        if jawaban == kunci:
+            print(" Benar!")
+            skor += 10
+            benar += 1
+        else:
+            print(f"Salah! Jawaban yang benar: {kunci}")
+            salah += 1
+
+    statistik = {
+        "total": len(soal_list),
+        "benar": benar,
+        "salah": salah,
+        "skor": skor
+    }
+
+    return statistik
+
+def tampilkan_statistik(statistik):
+    total = statistik["total"]
+    benar = statistik["benar"]
+    salah = statistik["salah"]
+    skor = statistik["skor"]
+
+    akurasi = (benar / total) * 100 if total > 0 else 0
+
+    print("\n=== HASIL KUIS ===")
+    print(f"Total Soal   : {total}")
+    print(f"Benar        : {benar}")
+    print(f"Salah        : {salah}")
+    print(f"Akurasi      : {akurasi:.2f}%")
+    print(f"Skor Akhir   : {skor}")
+
+def main():
+    while True:
+        print("\n=== PALINQUIZ CLI ===")
+        print("1. Mulai Kuis")
+        print("2. Keluar")
+
+        pilihan = input("Pilih menu: ")
+
+        if pilihan == "1":
+            soal_level1 = ["katak", "apel", "radar", "pisang"]
+
+            statistik = mulai_kuis("1", soal_level1)
+            tampilkan_statistik(statistik)
+
+        elif pilihan == "2":
+            print("Terima kasih sudah bermain!")
+            break
+
+        else:
+            print("Pilihan tidak valid!")
 
 
 def hitung_vokal(teks: str) -> int:
